@@ -1,10 +1,10 @@
-import { useApolloClient, useLazyQuery, useMutation, useSubscription } from "@apollo/client"
+import { gql, useApolloClient, useLazyQuery, useMutation, useSubscription } from "@apollo/client"
 import { useEffect, useState } from "react"
 import { REMOVE, SEARCH_USERS, USERADDED, USEREDITED, USERLIST, USERREMOVED } from "../graphQl-query"
 
 function User({ user }) {
     return <>
-        {user._id} {user.email}
+        {user.id} {user.email}
     </>
 
 }
@@ -15,8 +15,8 @@ function Users({ users, removeUser }) {
     return <ul>
         {
             users.map(user =>
-                <li key={user._id}>
-                    <User user={user} /> <button onClick={() => removeUser(user._id)}>Borrar</button>
+                <li key={user.id}>
+                    <User user={user} /> <button onClick={() => removeUser(user.id)}>Borrar</button>
                 </li>)
         }
     </ul>
@@ -28,7 +28,7 @@ function SearchUserForm({ handleSubmit }) {
 
     //  const [results, setResults] = useState([]);
 
-
+   
     //if (called && loading) return <div>Loading...</div>;
 
     return <form onSubmit={(event) => handleSubmit(event, query)}>
@@ -39,7 +39,15 @@ function SearchUserForm({ handleSubmit }) {
 
 function UsersSubscription() {
     const client = useApolloClient()
-    console.log(client)
+    console.log('render')
+
+     const a = client.readQuery({
+        query: SEARCH_USERS,
+        variables: { // Provide any required variables here
+          query: 'ad',
+        },
+      });
+      console.log(a)
 
     useSubscription(USERADDED, {
         onSubscriptionData: ({ subscriptionData }) => {
@@ -65,13 +73,25 @@ function UsersSubscription() {
             const { userRemoved } = subscriptionData.data
             console.log(userRemoved)
 
-            const dataInStore = client.readQuery({ query: USERLIST })
-            console.log(dataInStore.allUsers)
+            
+            const dataInStore = client.readQuery({ 
+                query: gql`
+                query SearchUsers($query: String!) {
+                  searchUsers(query: $query) {
+                    id
+                    name
+                    email
+                    __typename
+                  }
+                }`, 
+                variables:{query:'ad'}
+            })
+            console.log('busca',dataInStore)
             client.writeQuery({
                 query: USERLIST,
                 data: {
                     ...dataInStore,
-                    allUsers: dataInStore.allUsers.filter(user => user._id !== userRemoved._id)
+                    allUsers: dataInStore.allUsers.filter(user => user.id !== userRemoved.id)
 
                 }
             })
@@ -82,14 +102,14 @@ function UsersSubscription() {
         onSubscriptionData: ({ subscriptionData }) => {
             const { userEdited } = subscriptionData.data
             console.log(userEdited)
-
+            
             const dataInStore = client.readQuery({ query: USERLIST })
             console.log(dataInStore.allUsers)
             client.writeQuery({
                 query: USERLIST,
                 data: {
                     ...dataInStore,
-                    allUsers: dataInStore.allUsers.map(user => user._id === userEdited._id ? userEdited : user)
+                    allUsers: dataInStore.allUsers.map(user => user.id === userEdited.id ? userEdited : user)
                 }
             })
         }
@@ -111,7 +131,7 @@ function UsersSubscription() {
     // const r=searchUsers
 
     const [removeUser, result] = useMutation(REMOVE, {
-        onError: error => console.log(error)//console.log(error.graphQLErrors[0].message)
+        onError: error => console.error('error',error)//console.log(error.graphQLErrors[0].message)
     })
 
     const handleRemove = (id) => {

@@ -27,7 +27,7 @@ function User() {
     return (
         <div>
             <h1>User</h1>
-            <div>Id: {data?.getUser?._id}</div>
+            <div>Id: {data?.getUser?.id}</div>
             <div>Nombre: {data?.getUser?.name}</div>
             <div>Email: {data?.getUser?.email}</div>
             <div>Rol: {data?.getUser?.rol}</div>

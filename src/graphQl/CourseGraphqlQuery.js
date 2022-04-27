@@ -25,6 +25,8 @@ export const FEED_SEARCH_QUERY = gql`
     }
 `
 
+
+
 export const COURSE_ADDED = gql`
   subscription CourseAdded {
     courseAdded {
@@ -42,6 +44,25 @@ mutation RemoveCourse($removeCourseId: String!) {
     id
     title
     description
+  }
+}
+`
+
+
+export const TOGGLE_COURSE_COLABORATOR = gql`
+    mutation ToggleColaborator($idCourse: ID!, $idUser: ID!) {
+        toggleColaborator(idCourse: $idCourse, idUser: $idUser) {
+        id
+        title
+        }
+    }
+`
+
+export const TOGGLE_COURSE_REQUEST_COLABORATE = gql`
+mutation ToggleRequestColaborate($idCourse: ID!) {
+  toggleRequestColaborate(idCourse: $idCourse) {
+    id
+    title
   }
 }
 `

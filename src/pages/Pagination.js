@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { LINKS_PER_PAGE } from "./CourseGraphqlQuery";
+import { LINKS_PER_PAGE } from "../graphQl/CourseGraphqlQuery";
 
 const Pagination = ({count, page, isNewPage}) => {
   const navigate = useNavigate();

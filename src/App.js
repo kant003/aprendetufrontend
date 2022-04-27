@@ -12,6 +12,9 @@ import User from './pages/User';
 import UserForm from './pages/UserForm';
 import UserFormEdit from './pages/UserFormEdit';
 import { NotFound } from 'http-errors';
+import Home from './pages/Home';
+import CoursePage from './pages/CoursePage';
+import ThemePage from './pages/ThemePage';
 
 
 function App() {
@@ -52,6 +55,7 @@ function App() {
       </nav>
         <Routes>
           <Route path="/" element={<LoginForm setToken={setToken} />} />
+          <Route path="/home" element={<Home></Home>} />
           <Route path="/login" element={<LoginForm setToken={setToken} />} />
           <Route path="/users" element={<Users />} />
           <Route path="/users-subscription" element={<UsersSubscription />} />
@@ -59,6 +63,8 @@ function App() {
           <Route path="/users-create" element={<UserForm />} />
           <Route path="/user/:uid" element={<User />} />
           <Route path="/coursesPage" element={<CoursesPage />} />
+          <Route path="/course/:idCourse" element={<CoursePage />} />
+          <Route path="/theme/:idCourse/:idTheme" element={<ThemePage />} />
           <Route path="/createCoursesPage/:idCourse" element={<CreateCoursePage />} />
           <Route path="/createCoursesPage" element={<CreateCoursePage />} />
           <Route path="/searchCoursePage" element={<CourseSearchPage />} />
@@ -70,7 +76,9 @@ function App() {
             <NotFound />
           } />
         </Routes>
+        
     </div>
+
 
   );
 }

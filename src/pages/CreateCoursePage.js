@@ -1,7 +1,7 @@
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { FEED_SEARCH_QUERY, ALL_COURSES } from "./CourseGraphqlQuery";
+import { FEED_SEARCH_QUERY, ALL_COURSES } from "../graphQl/CourseGraphqlQuery";
 import { USERLIST } from "../graphQl-query";
 
 export const CREATE_COURSE = gql`
@@ -19,9 +19,46 @@ query GetCourse($getCourseId: ID!) {
     id
     title
     description
+    langs
+    img
+    active
+    colaborators {
+      id
+      email
+    }
+    requests {
+      id
+      email
+      name
+    }
+    themes {
+      id
+      title
+      description
+      active
+      sections {
+        active
+        createdAt
+        description
+        id
+        title
+        type
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+    createdBy {
+      email
+      id
+    }
   }
 }
 `
+
+
 
 const CreateCoursePage = () => {
   const { idCourse } = useParams()
@@ -42,6 +79,8 @@ const CreateCoursePage = () => {
     description: ''
   });
 
+  
+
   const [createCourse] = useMutation(CREATE_COURSE, {
     variables: {
       title: formState.title,
@@ -51,7 +90,7 @@ const CreateCoursePage = () => {
       const data = cache.readQuery({
         query: ALL_COURSES,
       });
-      console.log(data)
+      console.log('losDatos',data)
       console.log(createCourse)
       cache.writeQuery({
         query: ALL_COURSES,
@@ -60,6 +99,7 @@ const CreateCoursePage = () => {
         }
       });
     },
+    onError: (error) => console.log(error),
     onCompleted: () => navigate('/coursesPage')
   });
 

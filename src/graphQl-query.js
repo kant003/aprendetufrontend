@@ -10,7 +10,7 @@ export const LOGIN = gql`
 export const USERLIST = gql`
 query AllUsers {
   allUsers {
-    _id
+    id
     name
     email
   }
@@ -20,7 +20,7 @@ query AllUsers {
 export const SEARCH_USERS = gql`
 query SearchUsers($query: String!) {
   searchUsers(query: $query) {
-    _id
+    id
     name
     email
   }
@@ -30,10 +30,9 @@ query SearchUsers($query: String!) {
 export const GETUSER = gql`
 query GetUser($getUserId: ID!) {
   getUser(id: $getUserId) {
-    _id
+    id
     name
     email
-    rol
   }
 }
 `
@@ -41,7 +40,7 @@ export const REMOVE = gql`
 
 mutation RemoveUser($removeUserId: String!) {
   removeUser(id: $removeUserId) {
-    _id
+    id
   }
 }
 `
@@ -50,7 +49,7 @@ export const CREATE_USER = gql`
 
 mutation CreateUser($name: String!, $email: String!, $password: String!) {
   createUser(name: $name, email: $email, password: $password) {
-    _id
+    id
     name
     email
   }
@@ -59,7 +58,7 @@ mutation CreateUser($name: String!, $email: String!, $password: String!) {
 export const EDIT_USER = gql`
 mutation EditUser($editUserId: String!, $name: String, $email: String) {
   editUser(id: $editUserId, name: $name, email: $email) {
-    _id
+    id
     name
     email
   }
@@ -70,7 +69,7 @@ mutation EditUser($editUserId: String!, $name: String, $email: String) {
 export const USERADDED = gql`
 subscription {
   userAdded {
-    _id
+    id
     name
     email
   }
@@ -82,7 +81,7 @@ subscription {
 export const USERREMOVED = gql`
 subscription UserRemoved {
   userRemoved {
-    _id
+    id
   }
 }
 `
@@ -90,7 +89,7 @@ subscription UserRemoved {
 export const USEREDITED = gql`
 subscription UserEdited {
   userEdited {
-    _id
+    id
     email
     name
   }

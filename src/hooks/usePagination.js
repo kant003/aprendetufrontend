@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { LINKS_PER_PAGE } from "../pages/CourseGraphqlQuery";
+import { LINKS_PER_PAGE } from "../graphQl/CourseGraphqlQuery";
 
 export function usePagination() {
     const location = useLocation();

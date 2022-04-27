@@ -2,6 +2,7 @@ import Pagination from './Pagination';
 import { useCourse } from '../hooks/useCourse';
 import { usePagination } from '../hooks/usePagination';
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Course = ({ course, index }) => {
   return (
@@ -13,7 +14,8 @@ export const Course = ({ course, index }) => {
 
 const CoursesPage = () => {
   const [count, setCount] = useState(null)
-
+  // Navegamos
+  const navigate = useNavigate();
   const handleCompleted = (countval) => {
     setCount(countval)
   }
@@ -25,12 +27,15 @@ const CoursesPage = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <pre>{JSON.stringify(error, null, 2)}</pre>
 
+  
+
   return (
     <div>
       {data.filterCourses.courses.map(
         (course, index) => (
           <div key={course.id}>
-            <Course course={course} index={index + 1} />
+            <Course course={course} index={index + 1} /> |
+            <Link to={"/course/"+course.id}>ver</Link>  |
             <button onClick={() => handleRemove(course.id)}>Borrar</button> |
             <button onClick={null}>editar</button> |
             <button onClick={null}>toggle solicitar contriv</button> |

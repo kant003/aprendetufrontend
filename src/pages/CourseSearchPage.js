@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { Course } from './CoursesPage';
-import { FEED_SEARCH_QUERY } from './CourseGraphqlQuery';
+import { FEED_SEARCH_QUERY } from '../graphQl/CourseGraphqlQuery';
 
 
 const CourseSearchPage = () => {

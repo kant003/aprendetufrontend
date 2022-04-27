@@ -1,6 +1,6 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { useLocation, useNavigate } from "react-router-dom";
-import { COURSE_ADDED, FEED_SEARCH_QUERY, LINKS_PER_PAGE, REMOVE_COURSE } from "../pages/CourseGraphqlQuery";
+import { ALL_COURSES, COURSE_ADDED, FEED_SEARCH_QUERY, LINKS_PER_PAGE, REMOVE_COURSE } from "../graphQl/CourseGraphqlQuery";
 
 export function useCourse({take, skip, orderBy, handleCompleted}) {
 
@@ -12,6 +12,14 @@ export function useCourse({take, skip, orderBy, handleCompleted}) {
     }
   });
 
+ 
+
+  const client = useApolloClient()
+  const dataInStore = client.readQuery({ query: ALL_COURSES,  })
+  console.log('valor:',dataInStore)
+
+
+  //console.log(client)
 
   const [removeCourse, result] = useMutation(REMOVE_COURSE, {
     onError: error => console.log(error)//console.log(error.graphQLErrors[0].message)

@@ -35,8 +35,8 @@ function Users() {
             <ul>
                 {
                 data?.allUsers?.map(user => 
-                <li key={user._id}>
-                    {user._id} {user.name} {user.email} <button onClick={() => handleRemove(user._id)}>Borrar</button>
+                <li key={user.id}>
+                    {user.id} {user.name} {user.email} <button onClick={() => handleRemove(user.id)}>Borrar</button>
                 </li>)
                 }
             </ul>
